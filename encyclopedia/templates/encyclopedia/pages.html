@@ -1,5 +1,10 @@
 {% load static %}
-{% extends "layout.html" %}
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    {{ name }}
+{% endblock title %}
+
 {% block body %}
-  {{html}}
+  {{content | safe }}
 {% end block %}
