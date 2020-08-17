@@ -1,12 +1,15 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import render
+from django import forms
 from markdown2 import markdown
-from django.http import HttpResponseRedirect
-from . import forms
+# from django.http import HttpResponseRedirect
 from . import util
 
 
 # Create your views here.
+# class createEntryForm(forms.Form):
+#     title = forms.CharField()
 
+#     textarea = forms.CharField(widget=forms.Textarea(attrs={'cols': 80,'rows':10}))
 #entry page, index, search, create new entry, edit entry, random, convert markdown
 
 def entry_page(request, title):
@@ -48,16 +51,17 @@ def create_entry(request):
         for entry in util.list_entries():
             if title.casefold() == entry.casefold():
                 return render(request, "encyclopedia/create_entry.html", {
-                    "message": "same name msg",
+                    "message": "encyclopedia entry with same title exists already.",
                     "title": title,
                     "content": content
                 })
         util.save_entry(title, content)
         return render(request, "encyclopedia/index.html", {
             "entries": util.list_entries(),
-            "message": "Your entry has been added to the Encyclopedia. Thank you!"
+            "message": "New encyclopedia page added with success!"
         })
     return render(request, "encyclopedia/create_entry.html")
+
 
 def edit_entry(request, title):
     if request.method == "POST":
@@ -76,5 +80,3 @@ def edit_entry(request, title):
     })
 
 # def random_entry(request):
-
-
