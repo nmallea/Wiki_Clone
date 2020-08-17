@@ -6,10 +6,10 @@
 
 {% block body %}
     <form action="" method="POST">
-        {% csrf_token %}
-        <table>
-            {{form.as_table}}
-        </table>
-        <input type="submit" value="Save">
+        <textarea name="title" rows="1" cols="64" maxlength="64" readonly>{{ title }}</textarea>
+        <br>
+        <textarea name="content" style="width: 80%; height: 50vh;" required>{{ content }}</textarea>
+        <br>
+        <button type="submit" class="btn btn-secondary">Submit</button>
     </form>
 {% endblock %}
