@@ -5,10 +5,10 @@
 {% endblock %}
 
 {% block body %}
-    <form action="" method="POST">
-        <textarea name="title" rows="1" cols="64" maxlength="64" readonly>{{ title }}</textarea>
+    <form action="{% url 'edit' title %}" method="POST">
+        <textarea name="title">{{ title }}</textarea>
         <br>
-        <textarea name="content" style="width: 80%; height: 50vh;" required>{{ content }}</textarea>
+        <textarea name="content">{{ content }}</textarea>
         <br>
         <button type="submit" class="btn btn-secondary">Submit</button>
     </form>
