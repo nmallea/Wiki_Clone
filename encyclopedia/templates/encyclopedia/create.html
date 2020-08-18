@@ -1,21 +1,30 @@
 {% extends "encyclopedia/layout.html" %}
+{% load static %}
 
 {% block title %}
-    Create a new entry
+    Create New Page
 {% endblock %}
 
 {% block body %}
-    <h2>Create a new entry</h1>
-    <form action="{% url 'create' %}" method="post" class="col-lg-10 col-md-9">
-      {% csrf_token %}
-        <label for="title">Title : </label><br>
-            <input type="text" name="title" placeholder="Title"><br><br>
-            <label for="content">Add Entry Content in Markdown Format: </label><br>
-            <textarea name="content" id="pagecontent" placeholder="#Title
+    {% if message %}
+    <div class="alert alert-warning" role="alert">{{ message }}</div>
+    {% endif %}
 
-            Content....." ></textarea>
-          <br>
-        <input type="submit">
+    <h1>New Encyclopedia Entry</h1>
+    <hr>
+    <form action="{% url 'create' %}" method="post">
+        {% csrf_token %}
+        <span style="font-size: 1em; font-weight: bolder;">Title</span>
+        <br>
+        <input name="title" class="title">
+          {% if title %}{{ title }}{% endif %}</input>
+        <br><br>
+        <span style="font-size: 1em; font-weight: bolder;">Content</span>
+        <br>
+        <textarea name="content" class="content" style="width: 80%; height: 50vh;" required>{% if content %}{{ content }}{% endif %}</textarea>
+        <br>
+        <button type="submit" class="btn btn-secondary">Submit</button>
     </form>
+
 {% endblock %}
 

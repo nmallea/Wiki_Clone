@@ -1,7 +1,9 @@
 from django.shortcuts import render
-from django import forms
+
+from random import choice
 from markdown2 import markdown
-# from django.http import HttpResponseRedirect
+
+
 from . import util
 
 
@@ -26,6 +28,14 @@ def entry(request, title):
 def index(request):
     return render(request, "encyclopedia/index.html", {
         "entries": util.list_entries()
+    })
+
+def random(request):
+    title = choice(util.list_entries())
+    content = util.get_entry(title)
+    return render(request, "encyclopedia/entry.html", {
+        "title": title,
+        "content": markdown(content)
     })
 
 def search(request):
@@ -60,7 +70,7 @@ def create(request):
             "entries": util.list_entries(),
             "message": "Your entry has been added to the Encyclopedia. Thank you for contributing!"
         })
-    return render(request, "encyclopedia/create_entry.html")
+    return render(request, "encyclopedia/create.html")
 
 def edit(request, title):
     if request.method == "POST":

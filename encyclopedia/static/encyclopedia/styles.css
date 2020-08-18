@@ -12,8 +12,8 @@ h1 {
     padding-top: 20px;
 }
 
-textarea {
-    height: 50vh;
+.textarea {
+    height: 10vh;
     width: 80%;
     border: 1px solid black;
 }
