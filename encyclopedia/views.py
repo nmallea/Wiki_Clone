@@ -5,14 +5,7 @@ from random import choice
 from markdown2 import markdown
 from . import util
 
-
-# Create your views here.
-# class createEntryForm(forms.Form):
-#     title = forms.CharField()
-
-#     textarea = forms.CharField(widget=forms.Textarea(attrs={'cols': 80,'rows':10}))
-#entry page, index, search, create new entry, edit entry, random, convert markdown
-
+# main entry page view
 def entry(request, title):
     content = util.get_entry(title)
     if not content:
@@ -24,11 +17,12 @@ def entry(request, title):
         "content": markdown(content)
     })
 
+# home page view
 def index(request):
     return render(request, "encyclopedia/index.html", {
         "entries": util.list_entries()
     })
-
+# using random choice to render random entry page
 def random(request):
     title = choice(util.list_entries())
     content = util.get_entry(title)
@@ -36,7 +30,7 @@ def random(request):
         "title": title,
         "content": markdown(content)
     })
-
+# search entry page
 def search(request):
     search_request = request.GET.get("q")
     content = util.get_entry(search_request)
@@ -53,6 +47,7 @@ def search(request):
         "content": markdown(content)
     })
 
+# create a new entry form
 def create(request):
     if request.method == "POST":
         title = request.POST.get("title")
@@ -71,6 +66,7 @@ def create(request):
         })
     return render(request, "encyclopedia/create.html")
 
+#edit entry page view
 def edit(request, title):
     if request.method == "POST":
         title = request.POST.get("title")
@@ -86,5 +82,3 @@ def edit(request, title):
         "title": title,
         "content": content
     })
-
-# def random_entry(request):
