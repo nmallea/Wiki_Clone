@@ -1,8 +1,7 @@
 {% extends "encyclopedia/layout.html" %}
-{% load static %}
 
 {% block title %}
-    Create New Page
+    Create New Entry
 {% endblock %}
 
 {% block body %}
@@ -21,7 +20,7 @@
         <br><br>
         <span style="font-size: 1em; font-weight: bolder;">Content</span>
         <br>
-        <textarea name="content" class="content" style="width: 80%; height: 50vh;" required>{% if content %}{{ content }}{% endif %}</textarea>
+        <textarea name="content" class="content" style="width: 80%; height: 50vh;" placeholder="Markdown Format: #Title followed my new paragraph with entry description." required>{% if content %}{{ content }}{% endif %}</textarea>
         <br>
         <button type="submit" class="btn btn-secondary">Submit</button>
     </form>

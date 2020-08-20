@@ -1,6 +1,4 @@
 from django.shortcuts import render
-from django.http import HttpResponseRedirect
-from django.urls import reverse
 from random import choice
 from markdown2 import markdown
 from . import util
@@ -10,7 +8,7 @@ def entry(request, title):
     content = util.get_entry(title)
     if not content:
         return render(request, "encyclopedia/error.html", {
-            "message": "\"" + title + "\" is not an entry. Feel free to add to Wiki."
+            "message": "\"" + title + "\" has not been added yet."
         })
     return render(request, "encyclopedia/entry.html", {
         "title": title,
@@ -22,14 +20,19 @@ def index(request):
     return render(request, "encyclopedia/index.html", {
         "entries": util.list_entries()
     })
-# using random choice to render random entry page
-def random(request):
-    title = choice(util.list_entries())
+
+# Entry page view
+def view(request, title):
     content = util.get_entry(title)
-    return render(request, "encyclopedia/entry.html", {
+    if not content:
+        return render(request, "encyclopedia/error.html", {
+            "message": "\"" + title + "\" has not been added yet."
+        })
+    return render(request, "encyclopedia/view.html", {
         "title": title,
         "content": markdown(content)
     })
+
 # search entry page
 def search(request):
     search_request = request.GET.get("q")
@@ -55,7 +58,7 @@ def create(request):
         for entry in util.list_entries():
             if title.casefold() == entry.casefold():
                 return render(request, "encyclopedia/create.html", {
-                    "message": "",
+                    "message": "This entry already exists!",
                     "title": title,
                     "content": content
                 })
@@ -81,4 +84,13 @@ def edit(request, title):
     return render(request, "encyclopedia/edit.html", {
         "title": title,
         "content": content
+    })
+
+# using random choice to render random entry page
+def random(request):
+    title = choice(util.list_entries())
+    content = util.get_entry(title)
+    return render(request, "encyclopedia/entry.html", {
+        "title": title,
+        "content": markdown(content)
     })
