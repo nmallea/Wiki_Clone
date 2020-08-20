@@ -4,12 +4,11 @@ from random import choice
 from markdown2 import markdown
 from . import util
 
-# main entry page view
+# entry page view
 def entry(request, title):
     content = util.get_entry(title)
-    if not content:
+    if content == None:
         return render(request, "encyclopedia/error.html", {
-            "message": "\"" + title + "\" has not been added yet."
         })
     return render(request, "encyclopedia/entry.html", {
         "title": title,
@@ -66,7 +65,6 @@ def create(request):
         util.save_entry(title, content)
         return render(request, "encyclopedia/index.html", {
             "entries": util.list_entries(),
-            "message": "Your entry has been added to the Encyclopedia. Thank you for contributing!"
         })
     return render(request, "encyclopedia/create.html")
 
