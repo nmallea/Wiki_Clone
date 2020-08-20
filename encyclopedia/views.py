@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.shortcuts import redirect
 from random import choice
 from markdown2 import markdown
 from . import util
@@ -69,22 +70,16 @@ def create(request):
         })
     return render(request, "encyclopedia/create.html")
 
-#edit entry page view
+# edit entry page view
 def edit(request, title):
+    if request.method == "GET":
+        content = util.get_entry(title)
+        return render(request, "encyclopedia/edit.html", {"title": title, "content": content})
+
     if request.method == "POST":
-        title = request.POST.get("title")
-        content = request.POST.get("content")
+        content = request.POST.get("edit_content")
         util.save_entry(title, content)
-        return render(request, "encyclopedia/entry.html", {
-            "title": title,
-            "content": markdown(content),
-            "message": "\"" + title + "\" has been edited and saved."
-        })
-    content = util.get_entry(title)
-    return render(request, "encyclopedia/edit.html", {
-        "title": title,
-        "content": content
-    })
+        return redirect("entry", title)
 
 # using random choice to render random entry page
 def random(request):

@@ -5,11 +5,12 @@
 {% endblock %}
 
 {% block body %}
-    <form action="{% url 'edit' title %}" method="POST">
+<h1>Edit {{ title }}</h1>
+    <form method="POST" action="{% url 'edit' title %}">
         {% csrf_token %}
         <input name="title" Placeholder="{{ title }}"></input>
         <br>
-        <textarea name="content">{{ content }}</textarea>
+        <textarea name="edit_content">{{ content }}</textarea>
         <br>
         <button type="submit" class="btn btn-secondary">Submit</button>
     </form>
